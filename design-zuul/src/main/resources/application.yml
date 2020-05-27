@@ -1,0 +1,67 @@
+server:
+  # 服务端口号
+  port: 8200
+spring:
+  application:
+    # 服务名称 - 服务之间使用名称进行通讯
+    name: design-zuul
+
+
+eureka:
+  client:
+    service-url:
+      # 填写注册中心服务器地址
+      defaultZone: http://pppoa:pppoa@localhost:8100/eureka
+    # 是否需要将自己注册到注册中心
+    register-with-eureka: true
+    # 是否需要搜索服务信息
+    fetch-registry: true
+  instance:
+    # 使用ip地址注册到注册中心
+    prefer-ip-address: true
+    # 注册中心列表中显示的状态参数
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+
+#网关配置
+zuul:
+#  routes:
+#    design-user:
+#      path: /design-user/**
+#      serviceId: design-user
+#    client-api:
+#      path: /client-a/**
+#      serviceId: service-client-a
+  host:
+    connect-timeout-millis: 3000
+    socket-timeout-millis: 3000
+  #路由访问前缀
+  #  prefix: /tblog
+  #开启重试
+  retryable: true
+
+
+
+ribbon:
+  ReadTimeout: 3000         #请求处理的超时时间
+  ConnectTimeout: 3000      #请求连接的超时时间（ms）
+  maxAutoRetries: 1         #对当前实例的重试次数
+  maxAutoRetriesNextServer: 3 #切换实例的最大重试次数
+  okToRetryOnAllOperations: true #对所有操作请求都进行重试
+  retryableStatusCodes: 500,404,502 #对指定的Http响应码进行重试
+
+
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeout-in-milliseconds: 3000
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'

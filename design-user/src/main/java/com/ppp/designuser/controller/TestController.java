@@ -12,16 +12,21 @@ import org.springframework.web.bind.annotation.RestController;
  * @Modify By:
  */
 @RestController
-@RequestMapping("/test")
+//@RequestMapping("/test")
 public class TestController {
 
-    @RequestMapping("/1.0")
+    @RequestMapping("/hello")
     public String test1() {
         return "hello world!--client - b";
     }
 
-    @RequestMapping("/2.0/{id}")
-    public String test2(@PathVariable("id") String id) {
-        return "hello world!--client - b 且id=" + id;
+    @RequestMapping("/admin")
+    public String test2() {
+        return "admin *******";
+    }
+
+    @RequestMapping("/user")
+    public String test3() {
+        return "user ******";
     }
 }
